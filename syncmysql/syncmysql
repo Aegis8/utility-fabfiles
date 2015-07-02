@@ -1,6 +1,6 @@
 # Dump MySQL database on one host, copy dump to new host and import the dump into MySQL.
 # This fabfile requires key-file access to and between hosts and MySQL access via .my.cnf file.
-# Usage: Rename to fabfile.py and run fab transferdb
+# Usage: Rename to syncmysql to fabfile.py and run fab transferdb
 
 # Import Fabric's API module
 from fabric.api import *
