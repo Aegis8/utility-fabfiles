@@ -1,16 +1,19 @@
-# Import Fabric's API module
+## Import Fabric's API module
 from fabric.api import *
 
-#Get required info 
-#User can be hardcoded or asked for by using prompt()
-env.user = ""
-#Keyfile location
+##Get required info 
+##User can be hardcoded or asked for by using prompt()
+#env.user = ""
+env.user = prompt('Username: ')
+
+##Keyfile location
 #env.key_filename = "/path/to/key"
 
-#Remote host can be hardcoded or asked by using prompt()
+##Remote host can be hardcoded or asked by using prompt()
 env.host = prompt('Please specify remote host: ')
+#env.host = ""
 
-#Site to be checked can be hardcoded or asked by using prompt()
+##Site to be checked can be hardcoded or asked by using prompt()
 env.site = prompt('Please specify the site to check: ')
 
 @hosts("%s" % (env.host))
@@ -24,8 +27,8 @@ def localcheck():
 
 def checksite():
 
-    # Remotecheck
+    ## Remotecheck
     execute(remotecheck)
 
-    # Local check
+    ## Local check
     execute(localcheck)
