@@ -1,0 +1,48 @@
+# Dump MySQL database on one host, copy dump to new host and import the dump into MySQL.
+# This fabfile requires key-file access to and between hosts and MySQL access via .my.cnf file.
+# Usage: Rename to fabfile.py and run fab transferdb
+
+# Import Fabric's API module
+from fabric.api import *
+
+#Set required info 
+# env.user must be set to required user.
+env.user = "root"
+env.key_filename = "/path/to/key"
+env.db = prompt('Please specify target db: ')
+env.oldhost = prompt('Please specify host where db is located: ')
+env.newhost = prompt('Please specify host where db must be imported: ')
+
+@hosts("%s" % (env.oldhost))
+def dump():
+    """ Dump MySQL database on current location """
+    run("mysqldump %s  | gzip -9 > %s.sql.gz" % (env.db, env.db))
+
+@hosts("%s" % (env.oldhost))
+def test():
+    """ Check if dump was created """
+    run("ls | grep %s.sql.gz" %  (env.db))
+
+@hosts("%s" % (env.newhost))
+def copy():
+    """ Copy dump to new location """
+    run("scp %s:/%s/%s.sql.gz ." %  (env.oldhost, env.user, env.db))
+
+@hosts("%s" % (env.newhost))
+def importdb():
+    """ Import the dump into MySQL """
+    run("gunzip < %s.sql.gz | mysql %s" %  (env.db, env.db))
+
+def transferdb():
+
+    # Dump the db
+    execute(dump)
+
+    # Test if dump was created
+    execute(test)
+
+    # Copy dump
+    execute(copy)
+
+    # Import dump
+    execute(importdb)
