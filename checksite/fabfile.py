@@ -1,19 +1,25 @@
+## Check if a website is up from two different locations, eg. localhost and a remote host.
+## Used to confirm if an alert is valid or not.
+## Normal curl result is displayed from each host.
+
+## Usage: run fab checksite
+
 ## Import Fabric's API module
 from fabric.api import *
 
 ##Get required info 
-##User can be hardcoded or asked for by using prompt()
+##User can be hard-coded or asked for by using prompt()
 #env.user = ""
 env.user = prompt('Username: ')
 
 ##Keyfile location
 #env.key_filename = "/path/to/key"
 
-##Remote host can be hardcoded or asked by using prompt()
+##Remote host can be hard-coded or asked by using prompt()
 env.host = prompt('Please specify remote host: ')
 #env.host = ""
 
-##Site to be checked can be hardcoded or asked by using prompt()
+##Site to be checked can be hard-coded or asked by using prompt()
 env.site = prompt('Please specify the site to check: ')
 
 @hosts("%s" % (env.host))
