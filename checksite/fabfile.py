@@ -9,8 +9,8 @@ from fabric.api import *
 
 ##Get required info 
 ##User can be hard-coded or asked for by using prompt()
-#env.user = ""
 env.user = prompt('Username: ')
+#env.user = ""
 
 ##Keyfile location
 #env.key_filename = "/path/to/key"
@@ -21,6 +21,7 @@ env.host = prompt('Please specify remote host: ')
 
 ##Site to be checked can be hard-coded or asked by using prompt()
 env.site = prompt('Please specify the site to check: ')
+#env.site = ""
 
 @hosts("%s" % (env.host))
 def remotecheck():
